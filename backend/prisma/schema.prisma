@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(DOCTOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+  NURSE
+}
+
+model Patient {
+  id             String      @id @default(uuid())
+  name           String
+  age            Int
+  symptoms       String[]
+  riskScore      Int         @default(0)
+  colorCode      ColorCode   @default(GREEN)
+  status         QueueStatus @default(WAITING)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+enum ColorCode {
+  RED       // Emergência (Imediato)
+  ORANGE    // Muito Urgente (10 min)
+  YELLOW    // Urgente (60 min)
+  GREEN     // Pouco Urgente (120 min)
+  BLUE      // Não Urgente (240 min)
+}
+
+enum QueueStatus {
+  WAITING
+  IN_CONSULTATION
+  DISMISSED
+}

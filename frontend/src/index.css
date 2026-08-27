@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-red-500: #ef4444;
+  --color-orange-500: #f97316;
+  --color-yellow-500: #eab308;
+  --color-green-500: #22c55e;
+  --color-blue-500: #3b82f6;
+}
+
+body {
+  @apply bg-zinc-50 text-zinc-900;
+}

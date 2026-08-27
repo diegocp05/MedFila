@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: medibridge
+    ports:
+      - "15433:5432"
+    volumes:
+      - pgdata_medibridge:/var/lib/postgresql/data
+
+volumes:
+  pgdata_medibridge:
