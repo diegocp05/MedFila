@@ -89,6 +89,10 @@ export const updateStatus = async (req: Request, res: Response): Promise<void> =
     const io = (req as any).io;
     if (io) {
       io.emit('queue_updated');
+      if (status === 'IN_CONSULTATION') {
+        console.log(`🔊 Emitindo patient_called para o paciente: ${patient.name}`);
+        io.emit('patient_called', patient);
+      }
     }
 
     res.json(patient);
