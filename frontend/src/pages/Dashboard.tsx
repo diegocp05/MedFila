@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Activity, Clock, Check, X } from 'lucide-react';
+import { Activity, Clock, Check, X, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface Patient {
   id: string;
@@ -33,6 +34,7 @@ const labelMap = {
 export function Dashboard() {
   const [queue, setQueue] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(true);
+  const { token, user, logout } = useAuth();
 
   const fetchQueue = async () => {
     try {
@@ -61,9 +63,13 @@ export function Dashboard() {
   }, []);
 
   const updateStatus = async (id: string, status: string) => {
+    if (!token) return;
     await fetch(`http://localhost:3334/api/patients/${id}/status`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({ status })
     });
   };
@@ -79,9 +85,14 @@ export function Dashboard() {
             </h1>
             <p className="text-zinc-500 mt-1">Fila de espera em tempo real</p>
           </div>
-          <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-zinc-200 flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-            <span className="font-semibold text-zinc-700">Sistema Online</span>
+          <div className="flex items-center gap-4">
+            <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-zinc-200 flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+              <span className="font-semibold text-zinc-700 truncate max-w-[150px]">{user?.name}</span>
+            </div>
+            <button onClick={logout} className="p-2.5 text-zinc-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors bg-white border border-zinc-200 shadow-sm">
+              <LogOut className="w-5 h-5" />
+            </button>
           </div>
         </header>
 

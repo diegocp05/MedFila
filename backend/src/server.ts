@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import patientRoutes from './routes/patient.routes';
+import authRoutes from './routes/auth.routes';
 
 const app = express();
 const httpServer = createServer(app);
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 
 // Rotas
 app.use('/api/patients', patientRoutes);
+app.use('/api/auth', authRoutes);
 
 // Socket.io Eventos
 io.on('connection', (socket) => {
