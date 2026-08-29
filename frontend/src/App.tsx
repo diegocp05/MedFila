@@ -3,8 +3,11 @@ import { Checkin } from './pages/Checkin';
 import { Dashboard } from './pages/Dashboard';
 import { TvPanel } from './pages/TvPanel';
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
+
+import { Layout } from './components/Layout';
 
 function App() {
   return (
@@ -13,10 +16,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Checkin />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/tv" element={<TvPanel />} />
           
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<Layout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
           </Route>
         </Routes>
       </AuthProvider>
