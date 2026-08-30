@@ -26,9 +26,14 @@ app.use((req, res, next) => {
   next();
 });
 
+import consultationRoutes from './routes/consultation.routes';
+import adminRoutes from './routes/admin.routes';
+
 // Rotas
 app.use('/api/patients', patientRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/consultations', consultationRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Socket.io Eventos
 io.on('connection', (socket) => {
