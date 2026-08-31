@@ -8,6 +8,9 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import { Layout } from './components/Layout';
 import { ConsultationRoom } from './pages/ConsultationRoom';
+import { History } from './pages/History';
+import { AdminPanel } from './pages/AdminPanel';
+
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +25,8 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/consultation/:id" element={<ConsultationRoom />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/admin" element={<AdminPanel />} />
             </Route>
           </Route>
         </Routes>
