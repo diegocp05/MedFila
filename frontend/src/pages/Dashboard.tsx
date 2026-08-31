@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, Clock, Check, X, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Patient {
   id: string;
@@ -35,6 +36,7 @@ export function Dashboard() {
   const [queue, setQueue] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(true);
   const { token, user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const fetchQueue = async () => {
     try {
@@ -72,6 +74,10 @@ export function Dashboard() {
       },
       body: JSON.stringify({ status })
     });
+
+    if (status === 'IN_CONSULTATION') {
+      navigate(`/consultation/${id}`);
+    }
   };
 
   return (
