@@ -62,6 +62,9 @@ export function ConsultationRoom() {
 
       if (res.ok) {
         navigate('/dashboard');
+      } else {
+        const err = await res.json();
+        alert("Erro ao salvar consulta: " + (err.error || 'Desconhecido'));
       }
     } catch (error) {
       alert("Erro ao salvar consulta");

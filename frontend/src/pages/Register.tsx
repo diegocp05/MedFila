@@ -7,6 +7,7 @@ export function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('DOCTOR');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -21,7 +22,7 @@ export function Register() {
       const res = await fetch('http://localhost:3334/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, role: 'DOCTOR' })
+        body: JSON.stringify({ name, email, password, role })
       });
 
       const data = await res.json();
@@ -98,6 +99,18 @@ export function Register() {
                 className="w-full border border-zinc-300 rounded-xl p-4 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
                 required
               />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-zinc-700 mb-2">Cargo / Perfil</label>
+              <select
+                value={role}
+                onChange={e => setRole(e.target.value)}
+                className="w-full border border-zinc-300 rounded-xl p-4 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-white"
+              >
+                <option value="DOCTOR">Médico / Corpo Clínico</option>
+                <option value="ADMIN">Administrador</option>
+              </select>
             </div>
             
             <button 

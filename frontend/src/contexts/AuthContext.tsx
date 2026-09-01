@@ -18,17 +18,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem('@MedFila:user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem('@MedFila:token');
+  });
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('@MedFila:token');
-    const storedUser = localStorage.getItem('@MedFila:user');
-
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-    }
+    // Apenas garante que se mudar em outra aba, não vai quebrar (opcional)
   }, []);
 
   const login = (newToken: string, newUser: User) => {

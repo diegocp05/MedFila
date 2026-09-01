@@ -14,7 +14,7 @@ export const createConsultation = async (req: Request, res: Response): Promise<v
   try {
     const data = createConsultationSchema.parse(req.body);
     // userId vem do middleware de auth (que precisamos garantir que está injetando)
-    const doctorId = (req as any).user.userId;
+    const doctorId = (req as any).user.id;
 
     const consultation = await prisma.$transaction(async (tx) => {
       // Cria o prontuário
